@@ -43,6 +43,10 @@
             <div class="field"><label>ساعات الليل:</label><input type="number" id="nightHours" value="10"></div>
         </div>
         <div class="field">
+            <label>قدرة اللوح المتوفر (واط):</label>
+            <input type="number" id="panelWatt" value="550">
+        </div>
+        <div class="field">
             <label>نوع البطاريات:</label>
             <select id="battType"><option value="li">ليثيوم LiFePO4 (تفريغ 80%)</option><option value="gel">جل / أسيد (تفريغ 50%)</option></select>
         </div>
@@ -81,18 +85,19 @@
         let dh = parseFloat(document.getElementById('dayHours').value) || 0;
         let nl = parseFloat(document.getElementById('nightLoad').value) || 0;
         let nh = parseFloat(document.getElementById('nightHours').value) || 0;
+        let pw = parseFloat(document.getElementById('panelWatt').value) || 550;
         let v = parseInt(document.getElementById('sysVolt').value);
         let type = document.getElementById('battType').value;
         
         let dailyEnergy = (dl * dh) + (nl * nh);
         let DoD = (type === 'li') ? 0.8 : 0.5;
         let batteryAh = Math.ceil((nl * nh) / (v * DoD));
-        let panels = Math.ceil((dailyEnergy * 1.25) / (550 * 4)); 
+        let panels = Math.ceil((dailyEnergy * 1.25) / (pw * 4)); 
         
         let res = document.getElementById('resTech');
         res.style.display = 'block';
         res.innerHTML = `<b>📊 النتائج الهندسية الدقيقة:</b><br>
-        • عدد الألواح: ${panels} ألواح (550W)<br>
+        • عدد الألواح: ${panels} ألواح (${pw}W)<br>
         • سعة البطاريات: ${batteryAh}Ah على جهد ${v}V<br>
         • الإنفرتر المطلوب: ${Math.ceil((dl+nl)*1.3)} واط كحد أدنى<br>
         • التوصية: استخدم أسلاك DC 6mm لتقليل الفقد.`;
