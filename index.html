@@ -42,10 +42,12 @@
             <div class="field"><label>حمل الليل (واط):</label><input type="number" id="nightLoad" value="500"></div>
             <div class="field"><label>ساعات الليل:</label><input type="number" id="nightHours" value="10"></div>
         </div>
+        
         <div class="field">
             <label>قدرة اللوح المتوفر (واط):</label>
             <input type="number" id="panelWatt" value="550">
         </div>
+
         <div class="field">
             <label>نوع البطاريات:</label>
             <select id="battType"><option value="li">ليثيوم LiFePO4 (تفريغ 80%)</option><option value="gel">جل / أسيد (تفريغ 50%)</option></select>
@@ -85,7 +87,7 @@
         let dh = parseFloat(document.getElementById('dayHours').value) || 0;
         let nl = parseFloat(document.getElementById('nightLoad').value) || 0;
         let nh = parseFloat(document.getElementById('nightHours').value) || 0;
-        let pw = parseFloat(document.getElementById('panelWatt').value) || 550;
+        let pw = parseFloat(document.getElementById('panelWatt').value) || 550; // استخدام قيمة اللوح هنا
         let v = parseInt(document.getElementById('sysVolt').value);
         let type = document.getElementById('battType').value;
         
