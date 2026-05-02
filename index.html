@@ -3,93 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستشار الطاقة الشمسية - المهندس مراد الأثوري</title>
+    <title>مستشار الطاقة الذكي - المهندس مراد الأثوري</title>
     <style>
-        :root { --primary: #27ae60; --secondary: #2c3e50; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: var(--secondary); color: white; padding: 30px; text-align: center; }
-        .tabs { display: flex; background: #eee; }
-        .tab-btn { flex: 1; padding: 15px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 16px; }
+        :root { --primary: #27ae60; --secondary: #1a252f; --accent: #f39c12; --bg-dark: #0f172a; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-dark); color: #e2e8f0; margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: 0 auto; background: #1e293b; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; border: 1px solid #334155; }
+        .header { background: linear-gradient(135deg, #1e293b, #0f172a); padding: 20px; text-align: center; border-bottom: 2px solid var(--primary); }
+        .tabs { display: flex; background: #334155; }
+        .tab-btn { flex: 1; padding: 15px; border: none; cursor: pointer; font-weight: bold; color: #94a3b8; background: transparent; transition: 0.3s; font-size: 14px; }
         .tab-btn.active { background: var(--primary); color: white; }
-        .content { padding: 30px; display: none; }
+        .content { padding: 20px; display: none; }
         .content.active { display: block; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; margin-bottom: 8px; font-weight: bold; }
-        .input-group input, .input-group select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        .btn-calc { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .result-card { margin-top: 25px; padding: 20px; border-right: 5px solid var(--primary); background: #f9fffb; border-radius: 10px; }
-        .footer { background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee; }
-        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; }
+        .field { margin-bottom: 12px; }
+        .field label { display: block; margin-bottom: 6px; font-size: 13px; color: #38bdf8; font-weight: bold; }
+        .field input, .field select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: white; box-sizing: border-box; font-size: 15px; }
+        .btn-action { width: 100%; padding: 14px; background: linear-gradient(to right, #27ae60, #2ecc71); color: white; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .result-box { margin-top: 15px; padding: 15px; background: #0f172a; border-radius: 10px; border-right: 4px solid var(--primary); line-height: 1.7; display: none; font-size: 14px; }
+        .footer { background: #1e293b; padding: 15px; text-align: center; border-top: 1px solid #334155; }
+        .profile-pic { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--primary); margin-bottom: 8px; object-fit: cover; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>المركز الهندسي للطاقة الشمسية ⚡</h1>
-        <p>حلول ذكية ودقيقة تحت إشراف هندسي</p>
+        <h3 style="margin:0; color:var(--primary);">حلول ذكية ودقيقة تحت إشراف هندسي</h3>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('tech')">حساب المكونات الفنية</button>
-        <button class="tab-btn" onclick="openTab('finance')">حساب الجدوى المالية</button>
+        <button class="tab-btn active" onclick="showTab('tech')">حساب المكونات الفنية</button>
+        <button class="tab-btn" onclick="showTab('finance')">حساب الجدوى المالية</button>
     </div>
 
     <div id="tech" class="content active">
-        <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div class="input-group"><label>الأحمال (واط):</label><input type="number" id="load" placeholder="مثلاً: 2000"></div>
-            <div class="input-group"><label>نوع البطارية:</label>
-                <select id="battery"><option value="li">ليثيوم</option><option value="gel">جل / أسيد</option></select>
-            </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="field"><label>حمل النهار (واط):</label><input type="number" id="dayLoad" value="1500"></div>
+            <div class="field"><label>ساعات النهار:</label><input type="number" id="dayHours" value="6"></div>
+            <div class="field"><label>حمل الليل (واط):</label><input type="number" id="nightLoad" value="500"></div>
+            <div class="field"><label>ساعات الليل:</label><input type="number" id="nightHours" value="10"></div>
         </div>
-        <button class="btn-calc" onclick="calcTechnical()">توليد المخطط الفني</button>
-        <div id="resTech" class="result-card" style="display:none"></div>
+        <div class="field">
+            <label>نوع البطاريات:</label>
+            <select id="battType"><option value="li">ليثيوم LiFePO4 (تفريغ 80%)</option><option value="gel">جل / أسيد (تفريغ 50%)</option></select>
+        </div>
+        <div class="field">
+            <label>جهد النظام (V):</label>
+            <select id="sysVolt"><option value="12">12V</option><option value="24">24V</option><option value="48" selected>48V</option></select>
+        </div>
+        <button class="btn-action" onclick="calcDetailedTech()">توليد المخطط الفني</button>
+        <div id="resTech" class="result-box"></div>
     </div>
 
     <div id="finance" class="content">
-        <div class="input-group"><label>الفاتورة الشهرية ($):</label><input type="number" id="bill" placeholder="مثلاً: 100"></div>
-        <div class="input-group"><label>سعر المنظومة ($):</label><input type="number" id="price" placeholder="مثلاً: 3500"></div>
-        <button class="btn-calc" onclick="calcFinancial()">حساب فترة الاسترداد</button>
-        <div id="resFin" class="result-card" style="display:none"></div>
+        <div class="field"><label>الفاتورة الشهرية ($):</label><input type="number" id="bill" value="100"></div>
+        <div class="field"><label>تكلفة المنظومة ($):</label><input type="number" id="sysPrice" value="3000"></div>
+        <button class="btn-action" style="background:var(--accent)" onclick="calcDetailedFin()">حساب استرداد التكلفة</button>
+        <div id="resFin" class="result-box"></div>
     </div>
 
     <div class="footer">
-        <img src="mur.png" alt="المهندس مراد الأثوري" class="profile-img">
-        <h3 style="margin: 10px 0;">المهندس مراد الأثوري</h3>
-        <p style="color: var(--primary); font-weight: bold; font-size: 1.2em;">📞 775066061</p>
-        <p style="font-size: 14px; color: #7f8c8d;">خبير أنظمة الطاقة الشمسية ومطور ووردبريس</p>
+        <img src="mur.png" class="profile-pic" alt="المهندس مراد">
+        <div style="font-weight:bold; font-size: 15px;">المهندس مراد الأثوري</div>
+        <div style="color:var(--primary); font-size:1.1em; margin-top:5px;">📞 775066061</div>
     </div>
 </div>
 
 <script>
-    function openTab(tabName) {
+    function showTab(t) {
         document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
+        document.getElementById(t).classList.add('active');
         event.currentTarget.classList.add('active');
     }
 
-    function calcTechnical() {
-        let load = document.getElementById('load').value;
-        if(!load) return;
-        let panels = Math.ceil(load / 300);
-        let inverter = Math.ceil(load * 1.3);
+    function calcDetailedTech() {
+        let dl = parseFloat(document.getElementById('dayLoad').value) || 0;
+        let dh = parseFloat(document.getElementById('dayHours').value) || 0;
+        let nl = parseFloat(document.getElementById('nightLoad').value) || 0;
+        let nh = parseFloat(document.getElementById('nightHours').value) || 0;
+        let v = parseInt(document.getElementById('sysVolt').value);
+        let type = document.getElementById('battType').value;
+        
+        let dailyEnergy = (dl * dh) + (nl * nh);
+        let DoD = (type === 'li') ? 0.8 : 0.5;
+        let batteryAh = Math.ceil((nl * nh) / (v * DoD));
+        let panels = Math.ceil((dailyEnergy * 1.25) / (550 * 4)); 
+        
         let res = document.getElementById('resTech');
         res.style.display = 'block';
-        res.innerHTML = `<b>المواصفات المقترحة:</b><br>• الألواح: ${panels} ألواح (550 واط)<br>• الإنفرتر: ${inverter} واط<br>• القاطع: ${Math.ceil(inverter/24)} أمبير<br>• الأسلاك: DC 6mm / AC 4mm`;
+        res.innerHTML = `<b>📊 النتائج الهندسية الدقيقة:</b><br>
+        • عدد الألواح: ${panels} ألواح (550W)<br>
+        • سعة البطاريات: ${batteryAh}Ah على جهد ${v}V<br>
+        • الإنفرتر المطلوب: ${Math.ceil((dl+nl)*1.3)} واط كحد أدنى<br>
+        • التوصية: استخدم أسلاك DC 6mm لتقليل الفقد.`;
     }
 
-    function calcFinancial() {
-        let bill = document.getElementById('bill').value;
-        let price = document.getElementById('price').value;
-        if(!bill || !price) return;
-        let payback = (price / (bill * 12)).toFixed(1);
+    function calcDetailedFin() {
+        let b = parseFloat(document.getElementById('bill').value);
+        let p = parseFloat(document.getElementById('sysPrice').value);
+        let payback = (p / b).toFixed(1);
         let res = document.getElementById('resFin');
         res.style.display = 'block';
-        res.innerHTML = `<b>الجدوى المالية:</b><br>• توفيرك السنوي: ${bill * 12} $<br>• استرداد التكلفة خلال: ${payback} سنة<br>• الربح الصافي (20 سنة): ${(bill*12*20 - price).toLocaleString()} $`;
+        res.innerHTML = `<b>💰 التحليل الاقتصادي:</b><br>
+        • توفيرك السنوي: ${b * 12} $<br>
+        • استرداد التكلفة خلال: ${payback} شهر (${(payback/12).toFixed(1)} سنة).<br>
+        • الربح الصافي بعد 10 سنوات: ${(b*12*10 - p).toLocaleString()} $`;
     }
 </script>
 </body>
-  </html>
-  
+</html>
